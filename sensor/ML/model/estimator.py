@@ -1,4 +1,5 @@
 # from sensor.constant.training_pipeline import SAVED_MODEL_DIR,MODEL_FILE_NAME
+#all things related to target mapping are written in this file 
 import os
 class TargetValueMapping:
     def __init__(self):

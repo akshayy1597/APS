@@ -45,7 +45,7 @@ def save_numpy_array_data(file_path: str, array: np.array):
     try:
         dir_path = os.path.dirname(file_path)
         os.makedirs(dir_path, exist_ok=True)
-        with open(file_path, "wb") as file_obj:
+        with open(file_path, "wb") as file_obj:     #wb=saving int he form of array and numpy   
             np.save(file_obj, array)
     except Exception as e:
         raise SensorException(e, sys) from e
@@ -59,7 +59,7 @@ def load_numpy_array_data(file_path: str) -> np.array:
     return: np.array data loaded
     """
     try:
-        with open(file_path, "rb") as file_obj:
+        with open(file_path, "rb") as file_obj:     #rb=to convert the code into readable format from  byte format 
             return np.load(file_obj)
     except Exception as e:
         raise SensorException(e, sys) from e
@@ -71,9 +71,11 @@ def save_object(file_path: str, obj: object) -> None:
     try:
         logging.info("Entered the save_object method of MainUtils class")
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, "wb") as file_obj:
-            dill.dump(obj, file_obj)
+        with open(file_path, "wb") as file_obj:     #wb=saving int the form of array and numpy 
+            dill.dump(obj, file_obj)    #dill.dump=used to serialize the object which is made in the pickle form 
         logging.info("Exited the save_object method of MainUtils class")
     except Exception as e:
         raise SensorException(e, sys) from e 
+#object related things which are in pre-processed form also needs ot be converted 
 
+ 
