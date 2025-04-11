@@ -18,4 +18,4 @@ PyYAML
 numpy
 scikit-learn
 pymongo
--e .    #will run the setup.py file and triggeer the find_packages() function so that we don't have to run setup.py everytime 
+-e .    #will run the setup.py file and trigger the find_packages() function so that we don't have to run setup.py everytime 
