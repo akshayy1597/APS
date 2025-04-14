@@ -15,4 +15,5 @@ def get_classification_score(y_true,y_pred)->ClassificationMetricArtifact:
         return classsification_metric
     except Exception as e:
         raise SensorException(e,sys)
-    
+
+#this function gives us accuracy using F1 score 
