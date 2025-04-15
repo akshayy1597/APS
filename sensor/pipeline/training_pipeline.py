@@ -33,6 +33,7 @@ from sensor.components.model_pusher import ModelPusher
 
 
 class TrainPipeline:
+    is_pipeline_running = False     #this is a flag raised, meaning whenever you enter the class it's always false, and when you run the pipeline it will be true, so that you can check if the pipeline is running or not
 
     def __init__(self):
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S") 
@@ -135,19 +136,26 @@ class TrainPipeline:
 
     def run_pipeline(self):
         try:
-             data_ingestion_artifact:DataIngestionArtifact = self.start_data_ingestion()
+            TrainPipeline.is_pipeline_running = True    #when u are asked run pipeline, it will be true 
+            data_ingestion_artifact:DataIngestionArtifact = self.start_data_ingestion() 
 
-             data_validation_artifact=self.start_data_validaton(data_ingestion_artifact=data_ingestion_artifact) 
+            data_ingestion_artifact:DataIngestionArtifact = self.start_data_ingestion() 
 
-             data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
+            data_validation_artifact=self.start_data_validaton(data_ingestion_artifact=data_ingestion_artifact) 
 
-             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact)  
+            data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
 
-             model_eval_artifact = self.start_model_evaluation(data_validation_artifact, model_trainer_artifact)  
-             if not model_eval_artifact.is_model_accepted:
+            model_trainer_artifact = self.start_model_trainer(data_transformation_artifact)  
+
+            model_eval_artifact = self.start_model_evaluation(data_validation_artifact, model_trainer_artifact)  
+            if not model_eval_artifact.is_model_accepted:
                  raise Exception("Trained model is not better than the best model")  #this msg will occur when executed the second time   
              
-             model_eval_artifact = self.start_model_pusher(model_eval_artifact)       
+            model_eval_artifact = self.start_model_pusher(model_eval_artifact)   
 
-        except Exception as e :    
+            TrainPipeline.is_pipeline_running = False
+        except Exception as e : 
+            TrainPipeline.is_pipeline_running = False    #if any exception, pipeline will be stopped
+
+          
             raise  SensorException(e,sys)
