@@ -1,9 +1,6 @@
 from distutils import dir_util
-
 from sensor.constant.training_pipeline import SCHEMA_FILE_PATH
-
 from sensor.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
-
 from sensor.entity.config_entity import DataValidationConfig
 from sensor.exception import SensorException
 from sensor.logger import logging
